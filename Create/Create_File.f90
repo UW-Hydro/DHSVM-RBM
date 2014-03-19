@@ -4,11 +4,11 @@ implicit none
 ! Integer variables
 !
 integer::delta_t,ierror,iostat,n,nc,nd_start,no_cycles
-integer::nf,nfile,n_head,nn,no_years,no_seg
+integer::narray,nf,nfile,n_head,nn,no_years,no_seg
 integer::no_dt,no_days,nobs_start,nobs_end
 integer::start_day,start_mon,start_yr,end_day,end_mon,end_yr,start_hour,end_hour
 integer::Julian,start_jul,end_jul
-integer,allocatable,dimension(:):: seg_no
+integer,allocatable,dimension(:):: seg_no,seg_indx,seg_seq,seg_net
 integer,allocatable,dimension(:):: dummy
 !
 ! Real variables
@@ -74,15 +74,21 @@ open(30,file=TRIM(Project)//'.forcing',status='unknown')
 !
 read(10,*) n_head,no_seg
 !
-! Allocate arrays
+! Allocate arrays after increasing expected size to account
+! for differences in the number of segments and the size of
+! the largest stream segment number in DHSVM.
 !
-allocate (dummy(no_seg))
-allocate (seg_no(no_seg))
-allocate (in_flow(no_seg))
-allocate (out_flow(no_seg))
-!allocate (lat_flow(no_seg))
-!allocate (depth(no_seg))
-allocate (forcing(5,no_seg))
+narray=no_seg+no_seg/2
+allocate (dummy(narray))
+allocate (seg_no(narray))
+allocate (seg_indx(narray))
+allocate (seg_net(narray))
+allocate (seg_seq(narray))
+allocate (in_flow(narray))
+allocate (out_flow(narray))
+!allocate (lat_flow(narray))
+!allocate (depth(narray))
+allocate (forcing(5,narray))
 !
 do n=1,no_seg
   read(10,*) sequence,nn,path,seg_no(n)
@@ -141,6 +147,7 @@ no_days=end_jul - start_jul
 write(*,*) 'Julian',start_jul,end_jul
 !
 no_cycles=nobs_start+nobs_end+no_dt*(no_days-1)
+
 !
 write(*,*) 'no_cycles ',no_cycles
 write(30,'(2(i4.4,i2.2,i2.2,a1,i2.2,1x),2i4)')          &
@@ -151,13 +158,22 @@ write(30,'(2(i4.4,i2.2,i2.2,a1,i2.2,1x),2i4)')          &
 ! Read segment mapping
 !
 nfile=19
-do nf=1,7
+!
+! Read the segment sequencing from the header of the ATP.Only file
+! and establish the relationship between DHSVM segment numbers and
+! the indexed location in the forcing files
+!
+  nfile=nfile+1
+  read(nfile,*) (seg_seq(n),n=1,no_seg)
+  do nf=1,no_seg
+    seg_net(seg_seq(nf))=nf
+  end do
+do nf=2,7
   nfile=nfile+1
   read(nfile,*) (dummy(n),n=1,no_seg)
 !  read(nfile,*) time_stamp0
 !  write(*,"('Initial Time Stamp - ',a19)"), time_stamp0
-end do
-!
+end do!
 ! Read the forcings from the DHSVM file
 !
 do nc=1,no_cycles
@@ -177,6 +193,9 @@ do nc=1,no_cycles
   read(25,*) time_stamp,(in_flow(n),n=1,no_seg)
   read(26,*) time_stamp,(out_flow(n),n=1,no_seg)
   do n=1,no_seg
+    ! Convert the unit from cubic meter per sec to cubic feet per sec
+    in_flow(n) = in_flow(n) * 35.315;
+    out_flow(n) = out_flow(n) * 35.315;
     if(in_flow(n) .lt. 0.01 .and.out_flow(n).lt. 0.01) then 
       in_flow(n)  = 0.01
       out_flow(n) = in_flow(n)
@@ -189,7 +208,9 @@ do nc=1,no_cycles
 ! Write the output file
 !
   do n=1,no_seg
-    nn=seg_no(n)
+    nf=seg_no(n)
+    nn=seg_net(nf)
+    !write(*,*) n,nf,nn
     write(30,*) n,press,(forcing(nf,nn),nf=1,5)                  &
                ,in_flow(nn),out_flow(nn)
   end do
