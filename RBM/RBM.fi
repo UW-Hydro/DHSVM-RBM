@@ -18,39 +18,39 @@ C
      & ,XTITLE,ysim,delta_n
 C
       COMMON/BLOCK3/
-     &  no_celm(5000),no_cells(5000),no_tribs(5000),node(5000)
-     & ,main_stem(5000),last_seg(5000)
+     &  no_celm(10000),no_cells(10000),no_tribs(10000),node(10000)
+     & ,main_stem(10000),last_seg(10000)
 c
 c    Added last_seg(5000) to COMMON/BLOCK3/ to handle tributary
 c    input temperature  11/14/2008
 c
 C
-      COMMON/BLOCK4/qin(5000),q_trib(5000),qout(5000)
-     &             ,qdiff(5000),depth(5000),width(5000)
-     &             ,lat_flow(5000)
+      COMMON/BLOCK4/qin(10000),q_trib(10000),qout(10000)
+     &             ,qdiff(10000),depth(10000),width(10000)
+     &             ,lat_flow(10000)
 C
 C
-      COMMON/BLOCK5/ temp(500,-2:1000,2),T_trib(5000)
+      COMMON/BLOCK5/ temp(5000,-2:10000,2),T_trib(10000)
 c
 
 C     BLOCKI.COM - CONTAINS ARRAYS WITH DEPTH AND VELOCITY
 C                  CHARACTERISTICS AND RIVER MILE INDICES
 C                  FOR RNGKMOD.
 C
-      COMMON/BLOCK6/dx(5000),dt(5000)
-     &  ,x_dist(500,0:1000),u(5000),elev(1000)
+      COMMON/BLOCK6/dx(10000),dt(10000)
+     &  ,x_dist(5000,0:10000),u(10000),elev(10000)
 C
 C
 C     BLOCKK.COM - Contains arrays with meteorological data
 C
       COMMON/BLOCK8/
-     & QNS(5000),QNA(5000),DBT(5000),WIND(5000)
-     & ,EA(5000),PRESS(5000),PF,PHPER
+     & QNS(10000),QNA(10000),DBT(10000),WIND(10000)
+     & ,EA(10000),PRESS(10000),PF,PHPER
 c
 c     Declare variables
 c
-      COMMON/BLOCK9/segment_cell(500,1000),trib(5000,50)
-     &             ,head_cell(5000)
+      COMMON/BLOCK9/segment_cell(5000,10000),trib(50000,5000)
+     &             ,head_cell(10000)
 c
 c
       integer flow_cells,heat_cells,lat_flow
