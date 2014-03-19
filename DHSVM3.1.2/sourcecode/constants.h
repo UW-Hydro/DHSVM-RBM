@@ -10,7 +10,7 @@
  * DESCRIP-END.
  * FUNCTIONS:    
  * COMMENTS:
- * $Id: constants.h,v 3.1.1 2012/10/18 ning Exp $     
+ * $Id: constants.h,v 3.2 2014/3/18 ning Exp $     
  */
 
 #ifndef CONSTANTS_H

@@ -10,7 +10,7 @@
  * DESCRIP-END.
  * FUNCTIONS:    
  * COMMENTS:
- * $Id: functions.h, v 4.0  2013/1/10   Ning Exp $     
+ * $Id: functions.h, v3.2  2013/1/10   Ning Exp $     
  */
 
 #ifndef FUNCTIONS_H

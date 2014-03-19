@@ -10,7 +10,7 @@
  * DESCRIP-END.
  * FUNCTIONS:    
  * COMMENTS:
-* $Id: data.h, v 3.1.1  2012/10/31   Ning Exp $ 
+* $Id: data.h, v 3.2  2014/3/19   Ning Exp $ 
  */
 
 #ifndef DATA_H
