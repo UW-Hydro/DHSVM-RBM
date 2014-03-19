@@ -10,7 +10,7 @@
  * DESCRIP-END.
  * FUNCTIONS:    
  * COMMENTS:
- * $Id: functions.h, v3.1.2  2013/1/10   Ning Exp $     
+ * $Id: functions.h, v 4.0  2013/1/10   Ning Exp $     
  */
 
 #ifndef FUNCTIONS_H
@@ -57,8 +57,6 @@ void CalcWeights(METLOCATION *Station, int NStats, int NX, int NY,
 		 uchar **BasinMask, uchar ****WeightArray,
 		 OPTIONSTRUCT *Options);
 
-/* double cbrt (double x);*/ //compute the cubic root of a value
-
 double ChannelCulvertSedFlow(int y, int x, CHANNEL * ChannelData, int i);
 
 void CheckOut(int CanopyRadAttOption, LAYER Veg, LAYER Soil, 
@@ -79,7 +77,7 @@ void draw(DATE *Day, int first, int DayStep, MAPSIZE *Map, int NGraphics,
 void DistributeSedimentDiams(float SedDiams[NSEDSIZES]);
 
 void DumpMap(MAPSIZE *Map, DATE *Current, MAPDUMP *DMap, TOPOPIX **TopoMap,
-	     EVAPPIX **EvapMap, PRECIPPIX **PrecipMap, RADCLASSPIX **RadMap,
+	     EVAPPIX **EvapMap, PRECIPPIX **PrecipMap, PIXRAD **RadMap,
 	     SNOWPIX **Snowap, SOILPIX **SoilMap, SEDPIX **SedMap, FINEPIX ***FineMap,
 	     LAYER *Soil, VEGPIX **VegMap, LAYER *Veg, ROADSTRUCT **Network,
 	     OPTIONSTRUCT *Options);
@@ -93,8 +91,8 @@ void DumpPixSed(DATE *Current, int first, FILES *OutFileSediment, SEDPIX *SedMap
              float SedimentOverroadInflow, FINEPIX *FineMap);
 
 void ExecDump(MAPSIZE * Map, DATE * Current, DATE * Start, OPTIONSTRUCT * Options,
-	      DUMPSTRUCT * Dump, TOPOPIX ** TopoMap, EVAPPIX ** EvapMap,
-	      PRECIPPIX ** PrecipMap, RADCLASSPIX ** RadMap, SNOWPIX ** SnowMap,
+	      DUMPSTRUCT * Dump, TOPOPIX ** TopoMap, EVAPPIX ** EvapMap, PIXRAD **RadiMap,
+	      PRECIPPIX ** PrecipMap, RADCLASSPIX **RadMap, SNOWPIX ** SnowMap,
 	      MET_MAP_PIX ** MetMap, VEGPIX ** VegMap, LAYER * Veg, SOILPIX ** SoilMap,
 	      SEDPIX ** SedMap, ROADSTRUCT ** Network, CHANNEL * ChannelData, 
 	      FINEPIX *** FineMap, LAYER * Soil, AGGREGATED * Total, 

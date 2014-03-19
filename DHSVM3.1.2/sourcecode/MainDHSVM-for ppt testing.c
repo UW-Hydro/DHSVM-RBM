@@ -111,7 +111,6 @@ int main(int argc, char **argv)
   PRECIPPIX **PrecipMap = NULL;
   RADARPIX **RadarMap	= NULL;
   RADCLASSPIX **RadMap	= NULL;
-  PIXRAD **RadiationMap = NULL;
   ROADSTRUCT **Network	= NULL;	/* 2D Array with channel information for each pixel */
   SNOWPIX **SnowMap		= NULL;
   MET_MAP_PIX **MetMap	= NULL;
@@ -325,9 +324,10 @@ int main(int argc, char **argv)
 
     InitNewStep(&InFiles, &Map, &Time, Soil.MaxLayers, &Options, NStats, Stat,
 		InFiles.RadarFile, &Radar, RadarMap, &SolarGeo, TopoMap, RadMap,
-        SoilMap, MM5Input, WindModel, &MM5Map);
+                SoilMap, MM5Input, WindModel, &MM5Map);
 
     /* initialize channel/road networks for time step */
+
     if (Options.HasNetwork) {
       channel_step_initialize_network(ChannelData.streams);
       channel_step_initialize_network(ChannelData.roads);
@@ -357,7 +357,7 @@ int main(int argc, char **argv)
 			       0.0, SolarGeo.SunMax,
 			       SolarGeo.SineSolarAltitude);
 		  
-		  for (i = 0; i < Soil.MaxLayers; i++) {
+		  /*for (i = 0; i < Soil.MaxLayers; i++) {
 	        if (Options.HeatFlux == TRUE) {
 	          if (Options.MM5 == TRUE)
 		        SoilMap[y][x].Temp[i] =
@@ -374,9 +374,10 @@ int main(int argc, char **argv)
 			    Options.Infiltration, Veg.MaxLayers, &LocalMet, &(Network[y][x]), 
 			    &(PrecipMap[y][x]), &(VType[VegMap[y][x].Veg-1]), &(VegMap[y][x]),
 			    &(SType[SoilMap[y][x].Soil-1]), &(SoilMap[y][x]), &(SnowMap[y][x]), 
-				&(EvapMap[y][x]), &(Total.Rad), &ChannelData, SkyViewMap);
+				&(EvapMap[y][x]), &(Total.Rad), &ChannelData, SkyViewMap);*/
 		 
 		  PrecipMap[y][x].SumPrecip += PrecipMap[y][x].Precip;
+
 		}
 	  }
     }
@@ -386,93 +387,93 @@ int main(int argc, char **argv)
 	  channel_grid_avg(ChannelData.streams);
 	}
 
- #ifndef SNOW_ONLY
+// #ifndef SNOW_ONLY
 
     /* set sediment inflows to zero - they are incremented elsewhere */
-    if ((Options.HasNetwork) && (Options.Sediment)){ 
-      InitChannelSedInflow(ChannelData.streams);
-      InitChannelSedInflow(ChannelData.roads);
-	}
-    
-    RouteSubSurface(Time.Dt, &Map, TopoMap, VType, VegMap, Network,
-		    SType, SoilMap, &ChannelData, &Time, &Options, Dump.Path,
-		    SedMap, FineMap, SedType, MaxStreamID, SnowMap);
-
-    if (Options.HasNetwork)
-      RouteChannel(&ChannelData, &Time, &Map, TopoMap, SoilMap, &Total, 
-		   &Options, Network, SType, PrecipMap, SedMap,
-		   LocalMet.Tair, LocalMet.Rh, SedDiams);
-
-    /* Sediment Routing in Channel and output to sediment files */
-    if ((Options.HasNetwork) && (Options.Sediment)){
-      SPrintDate(&(Time.Current), buffer);
-      flag = IsEqualTime(&(Time.Current), &(Time.Start));
-
-      if (Options.ChannelRouting){
-	    if (ChannelData.roads != NULL) {
-	      RouteChannelSediment(ChannelData.roads, Time, &Dump, &Total, SedDiams);
-	      channel_save_sed_outflow_text(buffer, ChannelData.roads,
-					ChannelData.sedroadout,
-					ChannelData.sedroadflowout, flag);
-		  RouteCulvertSediment(&ChannelData, &Map, TopoMap, SedMap, 
-			       &Total, SedDiams);
-		}
-	    RouteChannelSediment(ChannelData.streams, Time, &Dump, &Total, SedDiams);
- 	    channel_save_sed_outflow_text(buffer, ChannelData.streams,
-				      ChannelData.sedstreamout,
-				      ChannelData.sedstreamflowout, flag);
-	  }
-      else {
-	    if (ChannelData.roads != NULL) {
-			channel_save_sed_inflow_text(buffer, ChannelData.roads,
-			ChannelData.sedroadinflow, SedDiams,flag);
-		}
-	    channel_save_sed_inflow_text(buffer, ChannelData.streams,
-			ChannelData.sedstreaminflow, SedDiams,flag);
-      }
-      SaveChannelSedInflow(ChannelData.roads, &Total);
-      SaveChannelSedInflow(ChannelData.streams, &Total);
-    }
-    
-    if (Options.Extent == BASIN)
-      RouteSurface(&Map, &Time, TopoMap, SoilMap, &Options,
-		   UnitHydrograph, &HydrographInfo, Hydrograph,
-		   &Dump, VegMap, VType, SType, &ChannelData, SedMap,
-		   PrecipMap, SedType, LocalMet.Tair, LocalMet.Rh, SedDiams);
-
-#endif
-
-    if (NGraphics > 0)
-      draw(&(Time.Current), IsEqualTime(&(Time.Current), &(Time.Start)),
-	   Time.DayStep, &Map, NGraphics, which_graphics, VType,
-	   SType, SnowMap, SoilMap, SedMap, FineMap, VegMap, TopoMap, PrecipMap,
-	   PrismMap, SkyViewMap, ShadowMap, EvapMap, RadMap, MetMap, Network,
-	   &Options);
-    
-    Aggregate(&Map, &Options, TopoMap, &Soil, &Veg, VegMap, EvapMap, PrecipMap,
-	      RadMap, SnowMap, SoilMap, &Total, VType, Network, SedMap, FineMap,
-	      &ChannelData, &roadarea);
-    
-    MassBalance(&(Time.Current), &(Dump.Balance), &(Dump.SedBalance), &Total, 
-		&Mass, &Options);
+//    if ((Options.HasNetwork) && (Options.Sediment)){ 
+//      InitChannelSedInflow(ChannelData.streams);
+//      InitChannelSedInflow(ChannelData.roads);
+//	}
+//    
+//    RouteSubSurface(Time.Dt, &Map, TopoMap, VType, VegMap, Network,
+//		    SType, SoilMap, &ChannelData, &Time, &Options, Dump.Path,
+//		    SedMap, FineMap, SedType, MaxStreamID, SnowMap);
+//
+//    if (Options.HasNetwork)
+//      RouteChannel(&ChannelData, &Time, &Map, TopoMap, SoilMap, &Total, 
+//		   &Options, Network, SType, PrecipMap, SedMap,
+//		   LocalMet.Tair, LocalMet.Rh, SedDiams);
+//
+//    /* Sediment Routing in Channel and output to sediment files */
+//    if ((Options.HasNetwork) && (Options.Sediment)){
+//      SPrintDate(&(Time.Current), buffer);
+//      flag = IsEqualTime(&(Time.Current), &(Time.Start));
+//
+//      if (Options.ChannelRouting){
+//	    if (ChannelData.roads != NULL) {
+//	      RouteChannelSediment(ChannelData.roads, Time, &Dump, &Total, SedDiams);
+//	      channel_save_sed_outflow_text(buffer, ChannelData.roads,
+//					ChannelData.sedroadout,
+//					ChannelData.sedroadflowout, flag);
+//		  RouteCulvertSediment(&ChannelData, &Map, TopoMap, SedMap, 
+//			       &Total, SedDiams);
+//		}
+//	    RouteChannelSediment(ChannelData.streams, Time, &Dump, &Total, SedDiams);
+// 	    channel_save_sed_outflow_text(buffer, ChannelData.streams,
+//				      ChannelData.sedstreamout,
+//				      ChannelData.sedstreamflowout, flag);
+//	  }
+//      else {
+//	    if (ChannelData.roads != NULL) {
+//			channel_save_sed_inflow_text(buffer, ChannelData.roads,
+//			ChannelData.sedroadinflow, SedDiams,flag);
+//		}
+//	    channel_save_sed_inflow_text(buffer, ChannelData.streams,
+//			ChannelData.sedstreaminflow, SedDiams,flag);
+//      }
+//      SaveChannelSedInflow(ChannelData.roads, &Total);
+//      SaveChannelSedInflow(ChannelData.streams, &Total);
+//    }
+//    
+//    if (Options.Extent == BASIN)
+//      RouteSurface(&Map, &Time, TopoMap, SoilMap, &Options,
+//		   UnitHydrograph, &HydrographInfo, Hydrograph,
+//		   &Dump, VegMap, VType, SType, &ChannelData, SedMap,
+//		   PrecipMap, SedType, LocalMet.Tair, LocalMet.Rh, SedDiams);
+//
+//#endif
+//
+//    if (NGraphics > 0)
+//      draw(&(Time.Current), IsEqualTime(&(Time.Current), &(Time.Start)),
+//	   Time.DayStep, &Map, NGraphics, which_graphics, VType,
+//	   SType, SnowMap, SoilMap, SedMap, FineMap, VegMap, TopoMap, PrecipMap,
+//	   PrismMap, SkyViewMap, ShadowMap, EvapMap, RadMap, MetMap, Network,
+//	   &Options);
+//    
+//    Aggregate(&Map, &Options, TopoMap, &Soil, &Veg, VegMap, EvapMap, PrecipMap,
+//	      RadMap, SnowMap, SoilMap, &Total, VType, Network, SedMap, FineMap,
+//	      &ChannelData, &roadarea);
+//    
+//    MassBalance(&(Time.Current), &(Dump.Balance), &(Dump.SedBalance), &Total, 
+//		&Mass, &Options);
 
     ExecDump(&Map, &(Time.Current), &(Time.Start), &Options, &Dump, TopoMap,
-	     EvapMap, RadiationMap, PrecipMap, RadMap, SnowMap, MetMap, VegMap, &Veg, 
-		 SoilMap, SedMap, Network, &ChannelData, FineMap, &Soil, &Total, 
-		 &HydrographInfo,Hydrograph);
+	     EvapMap, PrecipMap, RadMap, SnowMap, MetMap, VegMap, &Veg, SoilMap,
+	     SedMap, Network, &ChannelData, FineMap, &Soil, &Total, &HydrographInfo,
+	     Hydrograph);
 	
     IncreaseTime(&Time);
 	t += 1;
   }
 
   ExecDump(&Map, &(Time.Current), &(Time.Start), &Options, &Dump, TopoMap,
-	   EvapMap, RadiationMap, PrecipMap, RadMap, SnowMap, MetMap, VegMap, &Veg, SoilMap,
+	   EvapMap, PrecipMap, RadMap, SnowMap, MetMap, VegMap, &Veg, SoilMap,
 	   SedMap, Network, &ChannelData, FineMap, &Soil, &Total, &HydrographInfo, Hydrograph);
 
-  FinalMassBalance(&(Dump.FinalBalance), &Total, &Mass, &Options, roadarea);
+  /*FinalMassBalance(&(Dump.FinalBalance), &Total, &Mass, &Options, roadarea);*/
 
-  /*printf("\nSTARTING CLEANUP\n\n");
-  cleanup(&Dump, &ChannelData, &Options);*/
+  printf("\nSTARTING CLEANUP\n\n");
+  //cleanup(&Dump, &ChannelData, &Options);
   printf("\nEND OF MODEL RUN\n\n");
 
   /* record the run time at the end of each time loop */

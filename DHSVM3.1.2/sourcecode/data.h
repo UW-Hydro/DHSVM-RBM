@@ -10,7 +10,7 @@
  * DESCRIP-END.
  * FUNCTIONS:    
  * COMMENTS:
-* $Id: data.h, v 3.1.2  2013/10/31   ning Exp $ 
+* $Id: data.h, v 3.1.1  2012/10/31   Ning Exp $ 
  */
 
 #ifndef DATA_H
@@ -264,6 +264,7 @@ typedef struct {
 
 typedef struct {
   float Precip;					/* Total amount of precipitation at pixel (m) */
+  float SumPrecip;              /* Accumulated precipitation at pixel (m) */
   float RainFall;		        /* Amount of rainfall (m) */
   float SnowFall;		        /* Amount of snowfall (m) */
   float MomentSq;               /* Momentum squared for rain, used in the sediment model (kg* m/s)^2 /m^2*s) */
@@ -297,8 +298,8 @@ typedef struct {
   float PixelLongOut;	/* Outgoing longwave for entire pixel W/m2 */
   float ObsShortIn;
   float PixelShortIn;   /* Incoming shortwave for entire pixel W/m2 */
-  float PixelBeam;      /* Incoming direct beam radiation W/m2 */
-  float PixelDiffuse;   /* Incoming diffuse beam radiation W/m2 */
+  float PixelBeam;      /* Net direct beam radiation W/m2 */
+  float PixelDiffuse;   /* Net diffuse beam radiation W/m2 */
 } PIXRAD;
 
 typedef struct {

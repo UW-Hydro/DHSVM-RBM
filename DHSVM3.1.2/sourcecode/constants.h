@@ -10,7 +10,7 @@
  * DESCRIP-END.
  * FUNCTIONS:    
  * COMMENTS:
- * $Id: constants.h,v3.1.2 2013/10/18 ning Exp $     
+ * $Id: constants.h,v 3.1.1 2012/10/18 ning Exp $     
  */
 
 #ifndef CONSTANTS_H
@@ -28,16 +28,13 @@
 
 #define D0_MULTIPLIER  0.63		/* Multiplier for vegetation height to get displacement height (m) */
 
-
 #define DZ_TOP      0.1			/* Thickness of soil surface layer for which heat stoarge change is calculated (m) */
-
 
 #define EPS         0.622		/* ratio of molecular weight of water vapor to that for dry air */
 
 
 #define FS_CRITERIA 1.0			/* Criteria for determining is a pixel is failed. 
 								Pixels with factor of safety's less than this number, are considered failed */
-
 
 #define G           9.81		/* gravitational accelleration (m/(s^2)) */
 
@@ -115,6 +112,8 @@ extern float MIN_INTERCEPTION_STORAGE;	/* the amount of snow on the canopy
 extern float MIN_RAIN_TEMP;				/* minimum temperature at which rain can occur (C) */
 extern unsigned char OUTSIDEBASIN;		/* Mask value indicating outside the basin */
 extern float PRECIPLAPSE;				/* Precipitation lapse rate in m/timestep / m */
+extern float PRECIPMULTIPLIER;
+extern float MINELEV;
 extern float TEMPLAPSE;					/* Temperature lapse rate in C/m */
 extern int NWINDMAPS;					/* Number of wind maps in case the wind source is MODEL */
 extern float Z0_GROUND;					/* Roughness length for bare soil (m) */

@@ -739,9 +739,9 @@ int channel_step_initialize_network(Channel * net)
     net->last_outflow = net->outflow;
     net->last_storage = net->storage;
 
-    /* Initialzie variables for John's RBM model */ 
+	/* Initialzie variables for John's RBM model */ 
     net->ILW = 0.; /* incident longwave radiation */
-    net->NLW = 0.; /* net longwave radiation */
+	net->NLW = 0.; /* net longwave radiation */
     net->ISW = 0.; /* incident shortwave radiation */
 	net->Beam = 0.;
 	net->Diffuse = 0.;
