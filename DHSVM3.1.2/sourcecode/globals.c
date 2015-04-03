@@ -6,7 +6,7 @@
  * ORG:          University of Washington, Department of Civil Engineering
  * E-MAIL:       nijssen@u.washington.edu
  * ORIG-DATE:    29-May-97 at 20:27:40
- * $Id: globals.c,v 3.2 2014/03/01 21:26:30 ning Exp $
+ * $Id: globals.c,v 1.4 2003/07/01 21:26:30 olivier Exp $
  */
 
 float LAI_SNOW_MULTIPLIER;	/* multiplier to calculate the amount of 
@@ -40,5 +40,6 @@ float CHANNELd90;
 float TREEHEIGHT;
 float BUFFERWIDTH;          /* The width of canopy buffer */
 float OvhCoeff;             /* A percentage of tree height thats used to represent overhanging canopy */
-float ExtnCoeff;            /* Extinction coefficient */
+float ExtnCoeff[12];        /* Monthly Extinction coefficient */
+float Extn;
 float CanopyBankDist;       /* Distance from bank to canopy */

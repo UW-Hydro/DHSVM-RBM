@@ -129,6 +129,10 @@ void InitNewMonth(TIMESTRUCT *Time, OPTIONSTRUCT *Options, MAPSIZE *Map,
     }
   }
   
+  if (Options->CanopyShading == TRUE && Options->StreamTemp == TRUE) {
+	 Extn = ExtnCoeff[Time->Current.Month - 1];
+	 printf("The Extnction Coeff for Month[%d] is %.3f\n", Time->Current.Month, Extn);
+  }
 
 }
 

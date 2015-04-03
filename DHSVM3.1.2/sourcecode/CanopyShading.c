@@ -38,7 +38,7 @@
   Function name: CalcCanopyShading()
   Purpose:	 This subroutine calculates the shadow length
 *****************************************************************************/
-void CalcCanopyShading(Channel *Channel, SOLARGEOMETRY * SolarGeo) 
+void CalcCanopyShading(Channel *Channel, SOLARGEOMETRY *SolarGeo) 
 {
 	float Dx1 = 0., Dx2 = 0.;              /* shadow length (in meters) */
 	float SolarAltitude = 0.;   /* in radians */
@@ -80,7 +80,7 @@ void CalcCanopyShading(Channel *Channel, SOLARGEOMETRY * SolarGeo)
 			-CanopyBankDist;
 		
 		/* Case 1 - No shade */
-	    if (Dx2 <= 0.0)
+		if (Dx2 <= 0.0 || Extn == 0)
           ShadeCase = 1;
 	    /* Case 2 - Partial shade, sun above buffer */
 	    else if (Dx1 <= 0.0 && Dx2 <= BUFFERWIDTH) 
@@ -102,7 +102,7 @@ void CalcCanopyShading(Channel *Channel, SOLARGEOMETRY * SolarGeo)
 	      /* calculate the effective shade density */
 	      Net_Shade_Fctr = CalcShadeDensity(ShadeCase, HDEM, Channel->class2->width,
 					  SolarGeo->SolarAzimuth, StreamAzimuth, SolarAltitude, 
-					  TREEHEIGHT, BUFFERWIDTH, Dx1, Dx2, ExtnCoeff);
+					  TREEHEIGHT, BUFFERWIDTH, Dx1, Dx2, Extn);
 		else Net_Shade_Fctr = 0.;
 		if (Net_Shade_Fctr > 1) {
 		  printf("The shading density > 1! must be <=0\n");
@@ -156,7 +156,7 @@ float CalcShadeDensity(int ShadeCase, float HDEM, float WStream,
 	double SHDDEN;  // the effective shade density
 	float Shaded, Not_Shaded;
 	float Net_Shade_Fctr;
-
+	
 	/* Initialize the parameters */
 	Shaded = WStream;
 	Not_Shaded = 0;

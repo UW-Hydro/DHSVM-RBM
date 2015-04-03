@@ -188,10 +188,6 @@ void InitNetwork(int NY, int NX, float DX, float DY, TOPOPIX **TopoMap,
 	  if (sx != x || sy != y) {
 	    ReportError(Options->ImperviousFilePath, 64);
 	  }
-         if (!channel_grid_has_channel(ChannelData->stream_map, minx, miny)) {
-	    printf("Routing file is wrong. The desitination cell is no channel cell!\n"); 
-	    exit(0);
-	  }
 	}
       }
     }
